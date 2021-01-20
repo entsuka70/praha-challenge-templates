@@ -2,7 +2,16 @@ import { NameApiService } from "./nameApiService";
 import { DatabaseMock } from "./util";
 
 export const sumOfArray = (numbers: number[]): number => {
-  return numbers.reduce((a: number, b: number): number => a + b);
+  if (Array.isArray(numbers) && numbers.length > 0) {
+    numbers.map(value => {
+      if (typeof value !== 'number') {
+        throw new Error('Error : Exception !!');
+      }
+    });
+    return numbers.reduce((a: number, b: number): number => a + b);
+  } else {
+    throw new Error('Error : Exception !!');
+  }
 };
 
 export const asyncSumOfArray = (numbers: number[]): Promise<number> => {
