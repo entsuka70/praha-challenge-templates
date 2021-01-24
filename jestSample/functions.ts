@@ -22,11 +22,11 @@ export const asyncSumOfArray = (numbers: number[]): Promise<number> => {
 
 export const asyncSumOfArraySometimesZero = (
     numbers: number[],
-    // instance: any
+    instance: any
 ): Promise<number> => {
     return new Promise((resolve): void => {
         try {
-            const database = new DatabaseMock;
+            const database = new instance;
             database.save();
             resolve(sumOfArray(numbers));
         } catch (error) {
@@ -35,14 +35,15 @@ export const asyncSumOfArraySometimesZero = (
     });
 };
 
-// export const getFirstNameThrowIfLong = async (
-//   maxNameLength: number
-// ): Promise<string> => {
-//   const nameApiSerivce = new NameApiService(); // fixme: この関数をテストするには、NameApiServiceの使い方を変える必要がありそう！ヒント：依存性の注入
-//   const firstName = await nameApiSerivce.getFirstName();
+export const getFirstNameThrowIfLong = async (
+  maxNameLength: number,
+  instance: any
+): Promise<string> => {
+  const nameApiSerivce = new instance;
+  const firstName = await nameApiSerivce.getFirstName();
 
-//   if (firstName.length > maxNameLength) {
-//     throw new Error("first_name too long");
-//   }
-//   return firstName;
-// };
+  if (firstName.length > maxNameLength) {
+    throw new Error("first_name too long");
+  }
+  return firstName;
+};

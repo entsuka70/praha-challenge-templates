@@ -1,10 +1,11 @@
 // todo: ここに単体テストを書いてみましょう！
 
-import { sumOfArray } from "../functions";
+import { getFirstNameThrowIfLong, sumOfArray } from "../functions";
 import { asyncSumOfArray } from "../functions";
 import { DatabaseMock } from "../util/index";
 import { asyncSumOfArraySometimesZero } from "../functions";
 import { doesNotMatch } from "assert";
+import axios from "axios";
 
 describe('Test sumOfArray', () => {
     test('adds 1 + 1 + 1 to equal 3', () => {
@@ -47,30 +48,51 @@ describe('Test asyncSumOfArraySometimesZero', () => {
     const database = jest.mock('../util/index');
 
     test('async sum of array', () => {
-        const dbIns = new DatabaseMock;
-        dbIns.save();
-        // const myDatabaseMockSum = database.fn();
-        // myDatabaseMockSum.mockImplementation(() => {
-        //     return {
-        //         save: (() => {
-        //         })
-        //     }
-        // });
-        // return expect(asyncSumOfArraySometimesZero([1,2,3], myDatabaseMockSum)).resolves.toEqual(6);
-        return expect(asyncSumOfArraySometimesZero([1,2,3])).resolves.toEqual(6);
+        const myDatabaseMockSum = database.fn();
+        myDatabaseMockSum.mockImplementation(() => {
+            return {
+                save: (() => {
+                })
+            }
+        });
+        return expect(asyncSumOfArraySometimesZero([1,2,3], myDatabaseMockSum)).resolves.toEqual(6);
     });
     test('async sum of array to zero', () => {
-        const dbIns = new DatabaseMock;
-        dbIns.save();
-        // const myDatabaseMockZero = database.fn();
-        // myDatabaseMockZero.mockImplementation(() => {
-        //     return {
-        //         save: (() => {
-        //                 throw new Error ("fail!");
-        //         })
-        //     }
-        // });
-        // return expect(asyncSumOfArraySometimesZero([1,2], myDatabaseMockZero)).resolves.toBe(0);
-        return expect(asyncSumOfArraySometimesZero([1,2])).resolves.toBe(0);
+        const myDatabaseMockZero = database.fn();
+        myDatabaseMockZero.mockImplementation(() => {
+            return {
+                save: (() => {
+                        throw new Error ("fail!");
+                })
+            }
+        });
+        return expect(asyncSumOfArraySometimesZero([1,2], myDatabaseMockZero)).resolves.toBe(0);
+    });
+});
+
+describe('Test getFirstNameThrowIfLong', () => {
+    test('get Firstname', async () => {
+        const service = jest.mock('../nameApiService');
+        const serviceMock = service.fn();
+        await serviceMock.mockImplementation(() => {
+            return {
+                getFirstName: (() => {
+                    return 'Boy';
+                })
+            }
+        });
+        return expect(getFirstNameThrowIfLong(10, serviceMock)).resolves.toMatch('Boy');
+    });
+    test('get Too long Firstname', async () => {
+        const service = jest.mock('../nameApiService');
+        const serviceMock = service.fn();
+        await serviceMock.mockImplementation(() => {
+            return {
+                getFirstName: (() => {
+                    return 'Henry';
+                })
+            }
+        });
+        return expect(getFirstNameThrowIfLong(2, serviceMock)).rejects.toThrow('first_name too long');
     });
 });
