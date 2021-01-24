@@ -1,11 +1,9 @@
 // todo: ここに単体テストを書いてみましょう！
 
-import { getFirstNameThrowIfLong, sumOfArray } from "../functions";
+import { sumOfArray } from "../functions";
 import { asyncSumOfArray } from "../functions";
-import { DatabaseMock } from "../util/index";
 import { asyncSumOfArraySometimesZero } from "../functions";
-import { doesNotMatch } from "assert";
-import axios from "axios";
+import { getFirstNameThrowIfLong } from "../functions";
 
 describe('Test sumOfArray', () => {
     test('adds 1 + 1 + 1 to equal 3', () => {
