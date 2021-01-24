@@ -22,11 +22,11 @@ export const asyncSumOfArray = (numbers: number[]): Promise<number> => {
 
 export const asyncSumOfArraySometimesZero = (
     numbers: number[],
-    instance: any
+    // instance: any
 ): Promise<number> => {
     return new Promise((resolve): void => {
         try {
-            const database = new instance;
+            const database = new DatabaseMock;
             database.save();
             resolve(sumOfArray(numbers));
         } catch (error) {

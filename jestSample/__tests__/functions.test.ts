@@ -47,24 +47,30 @@ describe('Test asyncSumOfArraySometimesZero', () => {
     const database = jest.mock('../util/index');
 
     test('async sum of array', () => {
-        const myDatabaseMockSum = database.fn();
-        myDatabaseMockSum.mockImplementation(() => {
-            return {
-                save: (() => {
-                })
-            }
-        });
-        return expect(asyncSumOfArraySometimesZero([1,2,3], myDatabaseMockSum)).resolves.toEqual(6);
+        const dbIns = new DatabaseMock;
+        dbIns.save();
+        // const myDatabaseMockSum = database.fn();
+        // myDatabaseMockSum.mockImplementation(() => {
+        //     return {
+        //         save: (() => {
+        //         })
+        //     }
+        // });
+        // return expect(asyncSumOfArraySometimesZero([1,2,3], myDatabaseMockSum)).resolves.toEqual(6);
+        return expect(asyncSumOfArraySometimesZero([1,2,3])).resolves.toEqual(6);
     });
     test('async sum of array to zero', () => {
-        const myDatabaseMockZero = database.fn();
-        myDatabaseMockZero.mockImplementation(() => {
-            return {
-                save: (() => {
-                        throw new Error ("fail!");
-                })
-            }
-        });
-        return expect(asyncSumOfArraySometimesZero([1,2], myDatabaseMockZero)).resolves.toBe(0);
+        const dbIns = new DatabaseMock;
+        dbIns.save();
+        // const myDatabaseMockZero = database.fn();
+        // myDatabaseMockZero.mockImplementation(() => {
+        //     return {
+        //         save: (() => {
+        //                 throw new Error ("fail!");
+        //         })
+        //     }
+        // });
+        // return expect(asyncSumOfArraySometimesZero([1,2], myDatabaseMockZero)).resolves.toBe(0);
+        return expect(asyncSumOfArraySometimesZero([1,2])).resolves.toBe(0);
     });
 });
